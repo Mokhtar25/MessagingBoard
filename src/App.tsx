@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { socket } from "./socket";
 import MessageCard from "./comp/MessageCard";
 import { Header } from "./comp/Header";
-import { futimes } from "fs";
+import { NamePopup } from "./comp/NamePopup";
 
 export interface Message {
   content: string;
@@ -13,15 +13,16 @@ export interface Message {
 
 export default function App() {
   const [isConnect, setIsConnected] = useState(false);
-  const [messages, setmessages] = useState([]);
+  const [messages, setmessages] = useState<Message[]>([]);
+  const [username, setUsername] = useState("");
   const [text, setText] = useState("");
+  const [typing, setTyping] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
-  ref.current?.scrollIntoView();
+
   const send = () => {
-    // this works and send a message
     if (text !== "") {
-      socket.emit("chat message", text, "react");
+      socket.emit("chat message", text, username);
       setText("");
     }
   };
@@ -42,16 +43,10 @@ export default function App() {
     }
 
     function onMessages(value: Message) {
-      console.log(value, messages);
-
       const offset = value.id;
-
-      //@ts-ignore
-      // console.log(socket.auth.serverOffset);
-      //@ts-ignore
+      // @ts-ignore
       socket.auth.serverOffset = offset;
 
-      // @ts-ignore
       setmessages((mes) => [...mes, value]);
     }
 
@@ -66,18 +61,34 @@ export default function App() {
     };
   }, [messages]);
 
+  if (!username) return <NamePopup setName={setUsername} />;
+
   return (
-    <div className="">
+    <div className="h-dvh pb-4">
       <Header />
-      App {isConnect ? "true" : "false"}
-      <div className="flex h-[650px] w-3/4 flex-col overflow-scroll">
-        {messages.map((e: Message) => (
-          <MessageCard message={e} key={e.id} />
-        ))}
-        <span ref={ref}></span>
+      <div className="w-3/4">
+        <div className="group flex h-[650px] flex-col overflow-scroll overflow-x-clip first:bg-red-700 odd:bg-white even:bg-slate-500">
+          {messages.map((e: Message) => (
+            <MessageCard message={e} key={e.id} />
+          ))}
+          <span ref={ref}></span>
+        </div>
+        <span className="h-4 w-full px-6 py-2">is typing ....</span>
+        <div className="mb-4 flex bg-slate-200">
+          <input
+            className="w-full bg-slate-200 px-6 py-2 text-black"
+            placeholder="your message"
+            onChange={(e) => setText(e.target.value)}
+            value={text}
+          />
+          <button
+            className="w-22 h-10 rounded-none bg-slate-800"
+            onClick={send}
+          >
+            send
+          </button>
+        </div>
       </div>
-      <input onChange={(e) => setText(e.target.value)} value={text} />
-      <button onClick={send}>send</button>
     </div>
   );
 }

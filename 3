@@ -1,0 +1,26 @@
+import { DialogHTMLAttributes, useRef, useState } from "react";
+
+export const NamePopup = ({ setName }: { setName: any }) => {
+  const [field, setF] = useState("");
+  const ref = useRef<HTMLDialogElement>(null);
+
+  const submit = () => {
+    if (field) {
+      setName(field);
+      ref.current?.close();
+    }
+  };
+  return (
+    <dialog open ref={ref} className="absolute mt-96 h-3/4 w-2/4">
+      <div className="flex h-full flex-col gap-4 bg-slate-600">
+        <h1 className="text-4xl">Please enter a username </h1>
+        <input
+          type="text"
+          value={field}
+          onChange={(e) => setF(e.target.value)}
+        />
+        <button onClick={submit}>submit</button>
+      </div>
+    </dialog>
+  );
+};
