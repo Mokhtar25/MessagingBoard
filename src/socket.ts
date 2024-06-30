@@ -14,5 +14,8 @@ const URL = "http://localhost:4000";
 
 //@ts-ignore
 export const socket = io<ServerToClientEvents, ClientToServerEvents>(URL, {
-  autoConnect: false,
+  autoConnect: true,
+  auth: {
+    serveroffset: 0,
+  },
 });

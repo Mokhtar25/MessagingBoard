@@ -26,12 +26,11 @@ export default function App() {
   };
 
   const scrollToBottom = () => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
+    ref.current?.scrollIntoView({ behavior: "instant" });
   };
 
   useEffect(() => {
     scrollToBottom();
-    socket.connect();
     function onConnect() {
       console.log("run, connected");
       setIsConnected(true);
@@ -42,9 +41,16 @@ export default function App() {
     }
 
     function onMessages(value: Message) {
-      console.log(value);
+      console.log(value, messages);
+      const offset = value.id;
+
+      //@ts-ignore
+      console.log(socket.auth.serverOffset);
+      //@ts-ignore
+      socket.auth.serverOffset = offset;
+
       // @ts-ignore
-      setmessages((previous) => [...previous, value]);
+      setmessages((mes) => [...mes, value]);
     }
 
     socket.on("connect", onConnect);
@@ -70,7 +76,7 @@ export default function App() {
         {messages.map((e: Message) => (
           <MessageCard message={e} key={e.id} />
         ))}
-        <span ref={ref}>s</span>
+        <span ref={ref}></span>
       </div>
       <input onChange={(e) => setText(e.target.value)} value={text} />
       <button onClick={send}>send</button>
