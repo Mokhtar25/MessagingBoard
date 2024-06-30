@@ -1,0 +1,11 @@
+import React from "react";
+import { Message } from "../App";
+export default function MessageCard({ message }: { message: Message }) {
+  return (
+    <div className="flex h-8 w-full justify-center border-[1px] border-white bg-gray-600 text-xl">
+      <span className="font-medium">{message.content}</span>
+      <span className="text-sm text-gray-100">{message.username}</span>
+      <span>{message.date}</span>
+    </div>
+  );
+}
