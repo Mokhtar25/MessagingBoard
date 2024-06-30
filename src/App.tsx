@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { socket } from "./socket";
 import MessageCard from "./comp/MessageCard";
+import { Header } from "./comp/Header";
 
 export interface Message {
   content: string;
@@ -14,6 +15,8 @@ export default function App() {
   const [messages, setmessages] = useState([]);
   const [text, setText] = useState("");
 
+  const ref = useRef<HTMLDivElement>(null);
+  ref.current?.scrollIntoView();
   const send = () => {
     // this works and send a message
     if (text !== "") {
@@ -22,7 +25,12 @@ export default function App() {
     }
   };
 
+  const scrollToBottom = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
+    scrollToBottom();
     socket.connect();
     function onConnect() {
       console.log("run, connected");
@@ -52,15 +60,17 @@ export default function App() {
         setmessages([]);
       });
     };
-  }, []);
+  }, [messages]);
 
   return (
     <div className="">
+      <Header />
       App {isConnect ? "true" : "false"}
-      <div className="flex w-3/4 flex-col">
+      <div className="flex h-[650px] w-3/4 flex-col overflow-scroll">
         {messages.map((e: Message) => (
           <MessageCard message={e} key={e.id} />
         ))}
+        <span ref={ref}>s</span>
       </div>
       <input onChange={(e) => setText(e.target.value)} value={text} />
       <button onClick={send}>send</button>
