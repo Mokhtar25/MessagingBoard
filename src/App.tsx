@@ -54,6 +54,10 @@ export default function App() {
     ref.current?.scrollIntoView({ behavior: "auto" });
   };
 
+  if (username) {
+    setTimeout(scrollToBottom, 100);
+  }
+
   useEffect(() => {
     scrollToBottom();
     function onConnect() {
@@ -96,12 +100,11 @@ export default function App() {
     };
   }, [messages]);
 
-  if (!username) return <NamePopup setName={setUsername} />;
-
   return (
     <div className="h-dvh pb-4">
       <Header />
-      <div className="w-3/4">
+      {username === "" && <NamePopup setName={setUsername} />}
+      <div className={"w-3/4" + (username === "" && " hidden")}>
         <div className="group flex h-[650px] flex-col overflow-scroll overflow-x-clip first:bg-red-700 odd:bg-white even:bg-slate-500">
           {messages.map((e: Message) => (
             <MessageCard message={e} key={e.id} />
