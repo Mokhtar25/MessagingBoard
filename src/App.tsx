@@ -56,9 +56,16 @@ export default function App() {
 
   if (username) {
     setTimeout(scrollToBottom, 100);
+    window.localStorage.setItem("usernameMessage", username);
   }
 
   useEffect(() => {
+    const userLocal = window.localStorage.getItem("usernameMessage");
+    if (userLocal) {
+      console.log(userLocal);
+      setUsername(userLocal);
+    }
+
     scrollToBottom();
     function onConnect() {
       console.log("run, connected");
