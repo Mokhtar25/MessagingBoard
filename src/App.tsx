@@ -18,6 +18,7 @@ export default function App() {
   const [text, setText] = useState("");
   const [typing, setTyping] = useState(false);
   const [userTyping, setUserTyping] = useState("");
+  const [time, setTime] = useState<NodeJS.Timeout>();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -29,9 +30,11 @@ export default function App() {
   }
 
   const typeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    clearTimeout(time);
     setText(e.target.value);
     sentTyping();
-    setTimeout(doneTyping, 5000);
+    const x = setTimeout(doneTyping, 5000);
+    setTime(x);
   };
 
   const send = (e: FormEvent) => {
