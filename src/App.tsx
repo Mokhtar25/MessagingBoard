@@ -31,7 +31,7 @@ export default function App() {
   const typeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
     sentTyping();
-    setTimeout(doneTyping, 2000);
+    setTimeout(doneTyping, 5000);
   };
 
   const send = (e: FormEvent) => {
@@ -112,8 +112,10 @@ export default function App() {
           ))}
           <span ref={ref}></span>
         </div>
-        <span className="flex w-full justify-around px-6 py-2">
-          {typing ? `${userTyping}, is typing ....` : ""}
+        <span className="flex h-10 w-full justify-around px-6 py-2">
+          {typing
+            ? `${userTyping}, is typing ....`
+            : "No one is currently typing"}
           <span
             className={
               "ml-auto text-sm after:ml-1 after:inline-block after:size-2 after:rounded-full after:content-['']" +
