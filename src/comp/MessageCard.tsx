@@ -12,7 +12,7 @@ export default function MessageCard({ message }: { message: Message }) {
         <span className="text-xs text-slate-800">{data.toLocaleString()}</span>
       </div>
 
-      <span className="text-sm text-gray-800">{message.username}</span>
+      <span className="w-28 text-sm text-gray-800">{message.username}</span>
     </div>
   );
 }

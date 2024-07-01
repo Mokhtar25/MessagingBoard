@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { socket } from "./socket";
 import MessageCard from "./comp/MessageCard";
 import { Header } from "./comp/Header";
@@ -118,8 +112,16 @@ export default function App() {
           ))}
           <span ref={ref}></span>
         </div>
-        <span className="h-4 w-full px-6 py-2">
+        <span className="flex w-full justify-around px-6 py-2">
           {typing ? `${userTyping}, is typing ....` : ""}
+          <span
+            className={
+              "ml-auto text-sm after:ml-1 after:inline-block after:size-2 after:rounded-full after:content-['']" +
+              (isConnect ? " after:bg-green-600" : " after:bg-red-500")
+            }
+          >
+            {isConnect ? "Connected" : "Disconnected"}
+          </span>
         </span>
         <form onSubmit={send} className="mb-4 flex bg-slate-200">
           <input

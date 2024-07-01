@@ -1,4 +1,4 @@
-import { DialogHTMLAttributes, FormEvent, useRef, useState } from "react";
+import { FormEvent, useState } from "react";
 
 export const NamePopup = ({ setName }: { setName: any }) => {
   const [field, setF] = useState("");
