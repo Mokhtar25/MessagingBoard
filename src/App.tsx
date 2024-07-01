@@ -13,7 +13,7 @@ export interface Message {
 
 export default function App() {
   const [isConnect, setIsConnected] = useState(false);
-  const [messages, setmessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [username, setUsername] = useState("");
   const [text, setText] = useState("");
   const [typing, setTyping] = useState(false);
@@ -33,7 +33,7 @@ export default function App() {
     clearTimeout(time);
     setText(e.target.value);
     sentTyping();
-    const x = setTimeout(doneTyping, 5000);
+    const x = setTimeout(doneTyping, 3000);
     setTime(x);
   };
 
@@ -59,7 +59,6 @@ export default function App() {
   useEffect(() => {
     const userLocal = window.localStorage.getItem("usernameMessage");
     if (userLocal) {
-      console.log(userLocal);
       setUsername(userLocal);
     }
 
@@ -78,7 +77,7 @@ export default function App() {
       // @ts-ignore
       socket.auth.serverOffset = offset;
 
-      setmessages((mes) => [...mes, value]);
+      setMessages((mes) => [...mes, value]);
     }
     function onTyping(user: string) {
       console.log("user typingl", user);
@@ -102,7 +101,13 @@ export default function App() {
       socket.off("chat message", onMessages);
       socket.off("typing", onTyping);
     };
-  }, [messages]);
+  }, []);
+  useEffect(() => {
+    if (username) {
+      window.localStorage.setItem("usernameMessage", username); // Only set username if it's not empty
+    }
+    scrollToBottom();
+  }, [messages, username]); // Removed unnecessary setTimeout to scroll
 
   return (
     <div className="h-dvh pb-4">
