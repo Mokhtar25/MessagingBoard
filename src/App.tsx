@@ -114,7 +114,7 @@ export default function App() {
       <Header />
       {username === "" && <NamePopup setName={setUsername} />}
       <div className={"w-3/4" + (username === "" && " hidden")}>
-        <div className="group flex flex-col overflow-scroll overflow-x-clip first:bg-red-700 odd:bg-white even:bg-slate-500">
+        <div className="group flex min-h-[90dvh] flex-col overflow-scroll overflow-x-clip first:bg-red-700 odd:bg-white even:bg-slate-500">
           {messages.map((e: Message) => (
             <MessageCard message={e} key={e.id} />
           ))}
