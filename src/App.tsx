@@ -120,7 +120,7 @@ export default function App() {
           ))}
           <span ref={ref}></span>
         </div>
-        <div className="sticky bottom-0 w-full">
+        <div className="sticky bottom-0 w-full bg-[#242424]">
           <span className="flex h-10 w-full justify-around px-6 py-2">
             {typing
               ? `${userTyping}, is typing ....`
