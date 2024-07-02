@@ -110,41 +110,46 @@ export default function App() {
   }, [messages, username]); // Removed unnecessary setTimeout to scroll
 
   return (
-    <div className="h-dvh pb-4">
+    <div className="h-screen pb-4">
       <Header />
       {username === "" && <NamePopup setName={setUsername} />}
       <div className={"w-3/4" + (username === "" && " hidden")}>
-        <div className="group flex h-[650px] flex-col overflow-scroll overflow-x-clip first:bg-red-700 odd:bg-white even:bg-slate-500">
+        <div className="group flex flex-col overflow-scroll overflow-x-clip first:bg-red-700 odd:bg-white even:bg-slate-500">
           {messages.map((e: Message) => (
             <MessageCard message={e} key={e.id} />
           ))}
           <span ref={ref}></span>
         </div>
-        <span className="flex h-10 w-full justify-around px-6 py-2">
-          {typing
-            ? `${userTyping}, is typing ....`
-            : "No one is currently typing"}
-          <span
-            className={
-              "ml-auto text-sm after:ml-1 after:inline-block after:size-2 after:rounded-full after:content-['']" +
-              (isConnect ? " after:bg-green-600" : " after:bg-red-500")
-            }
-          >
-            {isConnect ? "Connected" : "Disconnected"}
+        <div className="sticky bottom-0 w-full">
+          <span className="flex h-10 w-full justify-around px-6 py-2">
+            {typing
+              ? `${userTyping}, is typing ....`
+              : "No one is currently typing"}
+            <span
+              className={
+                "ml-auto text-sm after:ml-1 after:inline-block after:size-2 after:rounded-full after:content-['']" +
+                (isConnect ? " after:bg-green-600" : " after:bg-red-500")
+              }
+            >
+              {isConnect ? "Connected" : "Disconnected"}
+            </span>
           </span>
-        </span>
-        <form onSubmit={send} className="mb-4 flex bg-slate-200">
-          <input
-            className="w-full bg-slate-200 px-6 py-2 text-black"
-            placeholder="your message"
-            onChange={typeInput}
-            value={text}
-          />
+          <form onSubmit={send} className="mb-4 flex bg-slate-200">
+            <input
+              className="w-full bg-slate-200 px-6 py-2 text-black"
+              placeholder="your message"
+              onChange={typeInput}
+              value={text}
+            />
 
-          <button className="w-22 h-10 rounded-none bg-slate-800" type="submit">
-            send
-          </button>
-        </form>
+            <button
+              className="w-22 h-10 rounded-none bg-slate-800"
+              type="submit"
+            >
+              send
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
