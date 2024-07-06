@@ -107,7 +107,7 @@ export default function App() {
       window.localStorage.setItem("usernameMessage", username); // Only set username if it's not empty
     }
     scrollToBottom();
-  }, [messages, username]); // Removed unnecessary setTimeout to scroll
+  }, [messages, username]);
 
   return (
     <div className="h-screen pb-4">
