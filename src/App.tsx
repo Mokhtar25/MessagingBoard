@@ -33,15 +33,14 @@ export default function App() {
     clearTimeout(time);
     setText(e.target.value);
     sentTyping();
-    const x = setTimeout(doneTyping, 3000);
-    setTime(x);
+    const timeout = setTimeout(doneTyping, 3000);
+    setTime(timeout);
   };
 
   const send = (e: FormEvent) => {
     e.preventDefault();
     if (text !== "") {
       socket.emit("chat message", text, username);
-      socket.emit("typing", null);
       doneTyping();
       setText("");
     }
